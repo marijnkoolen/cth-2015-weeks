@@ -7,12 +7,35 @@ Programme for 29-10-2015
 3. Koding, Slack, GitHub
 4. Rotation game
 5. DOM, JavaScript & Events
+5.5 Google workflow
 6. Assignment
 
 -->
     <head>
+    <style>
+        img {
+            width: 200px;
+        }
+    </style>
 	</head>
 	<body>
-        <img width="400px" src="http://belimitless.com/wp-content/uploads/2014/11/red_or_blue_pill_crimson_quill-12.jpg">	
+	    <section>
+	        <button name="button" onclick="turnImage()">Turn image</button>
+	    </section>
+	    <section>
+	        <img id="image" width="400px" src="http://belimitless.com/wp-content/uploads/2014/11/red_or_blue_pill_crimson_quill-12.jpg">	    
+	    </section>
+        
+        <script>
+            console.log("Hi!");
+            var image = document.getElementById('image');
+            
+            
+            var turnImage = function() {
+                console.log('hi');
+                image.style.width = "100px";
+            }
+            
+        </script>
 	</body>    
 </html>
