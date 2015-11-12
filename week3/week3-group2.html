@@ -1,0 +1,57 @@
+<html>
+
+    <!--
+    0. Survey
+    1. General questions
+    2. Ideas for projects? Questions about?
+    3. Examples of Digital Humanities coding projects
+    4. External sources of data
+    5. APIs, requests, respones & keys
+        
+    -->
+    
+    <body>
+       <!-- 
+        1. Search something in the Open Library   ->   https://openlibrary.org/subjects/wizards.json?details=true
+        2. API request from javascript to OL
+        3. Store API data in a variable
+        4. Show the people on a page and the frequency that they are mentioned
+        -->
+        
+        
+        <script>
+            var myRequest = new XMLHttpRequest();
+            
+            var method = "GET";
+            var query = "wizards";
+            var url = " https://openlibrary.org/subjects/" + query + ".json?details=true";
+            
+            myRequest.open(method, url);
+            myRequest.send();
+            
+            console.log(document);
+            
+            myRequest.onreadystatechange = function () {
+                if (myRequest.readyState === 4){
+                    var data = myRequest.response;
+                    var dataParsed = JSON.parse(data);
+  
+                    var ul = document.createElement('ul');
+                    document.body.appendChild(ul);
+                    
+                    for (var i=0; i < dataParsed.people.length; i++){
+                        // console.log(dataParsed.people[i]);
+                    }
+                    
+                    var reformattedArray = dataParsed.people.map(function(obj){ 
+                       var li = document.createElement('li');
+                       li.innerHTML = obj.name;
+                       ul.appendChild(li);
+                    });
+                }
+            }
+            
+        
+        </script>
+    </body>
+</html>
