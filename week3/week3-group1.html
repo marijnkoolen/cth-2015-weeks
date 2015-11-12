@@ -1,0 +1,44 @@
+<html>
+
+    <!--
+    0. Survey
+    1. General questions
+    2. Ideas for projects? Questions about?
+    3. Examples of Digital Humanities coding projects
+    4. External sources of data
+    5. APIs, requests, respones & keys
+        
+    -->
+    
+    <body>
+        <!-- 
+            1. subject in the open library meta-data -> sarcasm
+            2. meta-data from the OL by API requests -> http://openlibrary.org/search.json?q=sarcasm
+            3. Extract the publisher information
+            4. Publishers on the page with frequency
+            
+            
+            -->
+            
+        <script>
+            var myRequest = new XMLHttpRequest();
+            var query = "sarcasm";
+            var method = "GET";
+            var url = "http://openlibrary.org/search.json?q=" + query;
+            myRequest.open(method, url);
+            myRequest.send();
+            myRequest.onreadystatechange = function(){
+                if (myRequest.readyState === 4) {
+                    var data = myRequest.response;
+                    var dataParsed = JSON.parse(data);
+                    console.log(dataParsed.docs[0].publisher);
+                } else {
+                    console.log(myRequest.readyState);
+                }
+            }
+            
+            
+            
+        </script>
+    </body>
+</html>
