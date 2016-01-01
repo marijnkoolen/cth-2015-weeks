@@ -1,0 +1,111 @@
+<html>
+    <!--
+    
+    1. Templates
+    2. GitHub pages
+    3. Source criticism
+    4. github collaboration
+    5. If Hemingway wrote JavaScript
+    
+    -->
+    <head>
+        <script src="spotify-web-api-js/src/spotify-web-api.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+   </head>
+    <body>
+    
+        <ul>
+            <script id="tracklist-template" type="text/x-handlebars-template">
+                {{#each this}}
+                    <li>{{name}} - {{artists.0.name}} - {{popularity}} {{track_number}}
+                      </li>
+                {{/each}}
+            </script>
+        </ul>
+        <script>
+            var accessToken = "BQC-vw4L7GGha4QrEaFMbUayLSErd0K3bThSl_j2AdZPFtkyHl0-t9PAkvy2Y_cA5UqDFrV-czj_f7VBSj9kjKFjOfJ-qZSlUMTJTO1aWs4fvrXq99SBFgzWeh9VLc_TGtlle7516O3SJ67d6Gpyg4f764eceoWzsPeTGNjhbS71GMwlOZOg-Sr4fEmX6Q";
+            
+            var spotifyApi = new SpotifyWebApi();
+            spotifyApi.setAccessToken(accessToken);
+            spotifyApi.getUserPlaylists()
+              .then(function(data) {
+                console.log('User playlists', data);
+              }, function(err) {
+                console.error(err);
+              });
+            
+            var http = new XMLHttpRequest();
+            var url = "https://api.spotify.com/v1/users/marijnkoolen/playlists";
+            ///*
+            http.open("POST", url, true);
+            //Send the proper header information along with the request
+            http.setRequestHeader("Content-Type", "application/json");
+            http.setRequestHeader("Authorization", "Bearer " + accessToken);
+            
+            var data = {"name": "Hoi Peter!", "public": false}
+            
+            http.onreadystatechange = function() {//Call a function when the state changes.
+               if(http.readyState == 4 && http.status == 200) {
+                   alert(http.responseText);
+               }
+               if(http.readyState == 4) {
+                   console.log(http.response);
+               }
+            }
+            http.send(JSON.stringify(data));
+
+            //*/
+            var tracks;
+            
+            var prev = null;
+
+            function onUserInput(queryTerm) {
+            
+              // abort previous request, if any
+              if (prev !== null) {
+                prev.abort();
+              }
+            
+              // store the current promise in case we need to abort it
+              prev = spotifyApi.searchTracks(queryTerm, {limit: 5})
+                .then(function(data) {
+            
+                  // clean the promise so it doesn't call abort
+                  prev = null;
+                  console.log(data);
+            
+                  // ...render list of search results...
+            
+                }, function(err) {
+                  console.error(err);
+                });
+            }
+
+            onUserInput('bicyle');
+            // search tracks whose name, album or artist contains 'bicycle'
+            /*
+            var spotifyApi = new SpotifyWebApi();
+            spotifyApi.searchTracks('bicycle')
+              .then(function(data) {
+                console.log('Search by "bicycle"', data);
+                tracks = data.tracks.items;
+                showTracks(tracks);
+              }, function(err) {
+                console.error(err);
+              });
+
+
+
+
+            var showTracks = function(tracks) {
+                //Get the HTML from the template   in the script tag​
+                var theTemplateScript = $("#tracklist-template").html(); 
+                var theTemplate = Handlebars.compile(theTemplateScript); 
+                $('ul').append(theTemplate(tracks)); 
+                console.log(tracks);
+            }
+            */
+        </script>
+    </body>
+</html>
